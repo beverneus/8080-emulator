@@ -27,8 +27,11 @@ void Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
     const uint8_t group = (opcode & 0b11000000) >> 6;
 
+    regs.PC += 1; // increment PC to avoid repetitive code
+
     switch (group) { // First check some groups of opcodes we can generalize
         case 0b01: // MOV opcodes
+        { 
             const uint8_t SSS = opcode & 0b00000111;        // Source 
             const uint8_t DDD = (opcode & 0b00111000) >> 3; // Destination
             uint8_t *dest = regs.getSingleRegister(DDD);
@@ -40,12 +43,13 @@ void Cpu::decode() {
             } else { // Move, register SSS to register DDD
                 *dest = *source;
             }
+        }
+            return; // avoid next switch statement from being ran
         default: break;
     }
 
     switch (opcode) {
         case 0x00: //NOP
-            regs.PC += 1;
             break;
         default:
             UnimplementedInstruction();
