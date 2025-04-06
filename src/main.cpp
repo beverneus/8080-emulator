@@ -10,6 +10,9 @@ int main() {
     //LOAD ROM
     const char* path = "../assets/invaders";
     cpu.loadRom(path);
+    
+    while (true)
+        cpu.decode();
 
     return 0;
 }
