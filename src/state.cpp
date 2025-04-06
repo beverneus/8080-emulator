@@ -18,7 +18,7 @@ void Memory::write(uint16_t address, uint8_t value) {
 
 // REGISTERS
 
-Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), F(0) {}
+Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
 uint16_t Registers::readPair(uint8_t high, uint8_t low)
 {
