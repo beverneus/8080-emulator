@@ -6,9 +6,10 @@
 #include "state.hpp"
 
 class Cpu {
-    uint8_t opcode = 0x0;
     Registers regs;
-    public: Memory memory;
+    Memory memory;
+
+    void UnimplementedInstruction();
 
     public:
         int loadRom(const char* path);
