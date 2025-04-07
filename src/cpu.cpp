@@ -96,6 +96,13 @@ int Cpu::decode() {
             memory.write(value, regs.A);
             return 4;
         }
+        case 0b00101010: // Load H and L direct
+        {
+            uint16_t address = read16atPC();
+            regs.L = memory.read(address);
+            regs.H = memory.read(address+1);
+            return 5;
+        }
         default:
             UnimplementedInstruction();
     }
