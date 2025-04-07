@@ -26,6 +26,12 @@ uint16_t Memory::read16(uint16_t address) const {
 
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
+uint8_t Registers::getZero() {return (F & 0b10000) >> 4;}
+uint8_t Registers::getCarry() {return (F & 0b1000) >> 3;}
+uint8_t Registers::getSign() {return (F & 0b100) >> 2;}
+uint8_t Registers::getParity() {return (F & 0b10) >> 1;}
+uint8_t Registers::getAuxCarry() {return F & 0b1;}
+
 uint8_t* Registers::getSingleRegister(uint8_t code) { // code is a two/three bit code
     switch (code) {
     case 0b111:

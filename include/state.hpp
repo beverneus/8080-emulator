@@ -22,6 +22,13 @@ class Registers
         uint8_t B, C, D, E, H, L; // addressable in pairs B,C; D,E; H,L
         uint8_t A; // Accumulator
         uint8_t F; // Flag register, 5 bits: zero, carry, sign, parity and auxiliary carry
+
+        uint8_t getZero();
+        uint8_t getCarry();
+        uint8_t getSign();
+        uint8_t getParity();
+        uint8_t getAuxCarry();
+
         uint16_t PC, SP; // Program counter, stack pointer
 
         uint8_t* getSingleRegister(uint8_t code);
