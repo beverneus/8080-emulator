@@ -41,6 +41,38 @@ uint8_t* Registers::getSingleRegister(uint8_t code) { // code is a two/three bit
     }
 }
 
+uint16_t Registers::readRP(uint8_t code) {
+    switch (code) {
+        case 0b00:
+            return readBC();
+        case 0b01:
+            return readDE();
+        case 0b10:
+            return readHL();
+        case 0b11:
+            return SP;
+        default:
+            std::cerr << "Unused RP code: 0x" << std::hex << code << std::endl;
+            exit(1);
+    }
+}
+
+void Registers::setRP(uint8_t code, uint16_t value) {
+    switch (code) {
+        case 0b00:
+            setBC(value);
+            break;
+        case 0b01:
+            setDE(value);
+            break;
+        case 0b10:
+            setHL(value);
+            break;
+        case 0b11:
+            SP = value;
+    }
+}
+
 uint16_t Registers::readPair(uint8_t high, uint8_t low)
 {
     uint16_t value = (high << 8) | low;
