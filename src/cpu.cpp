@@ -72,8 +72,7 @@ int Cpu::decode() {
             // Load register pair immediate
             } else if ((opcode & 0b1111) == 0b0001) {
                 uint8_t RP = (opcode & 0b00110000);
-                uint16_t value = memory.read16(regs.PC);
-                regs.PC += 2;
+                uint16_t value = read16atPC();
                 regs.setRP(RP, value);
                 return 3;
             }
@@ -87,7 +86,7 @@ int Cpu::decode() {
         // Data transfer
         case 0b00111010: // Load Accumulator direct
         {
-            uint16_t value = memory.read16(regs.PC);
+            uint16_t value = read16atPC();
             regs.A = value;
             return 4;
         }
