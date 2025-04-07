@@ -16,6 +16,12 @@ void Memory::write(uint16_t address, uint8_t value) {
     data[address] = value;
 }
 
+uint16_t Memory::read16(uint16_t address) const {
+    uint8_t low = read(address);
+    uint8_t high = read(address + 1);
+    return (high << 8) | low;
+}
+
 // REGISTERS
 
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
