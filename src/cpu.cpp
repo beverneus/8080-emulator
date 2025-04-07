@@ -34,6 +34,11 @@ int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
     const uint8_t group = (opcode & 0b11000000) >> 6;
 
+    uint16_t address;
+    uint8_t value8;
+    uint16_t temp16;
+    // uint16_t value16;
+
     regs.PC += 1; // increment PC to avoid repetitive code
 
     switch (group) { // First check some groups of opcodes we can generalize
