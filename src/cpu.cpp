@@ -75,7 +75,14 @@ int Cpu::decode() {
                 uint16_t value = read16atPC();
                 regs.setRP(RP, value);
                 return 3;
+            // Load accumulator indirect
+            } else if ((opcode & 0b1111) == 0b1010 && (opcode & 0b00100000) >> 5 == 0b1) {
+                uint8_t RP = (opcode & 0b00110000);
+                uint16_t address = regs.readRP(RP);
+                regs.A = memory.read(address);
+                return 2;
             }
+            break;
         }
         default: break;
     }
