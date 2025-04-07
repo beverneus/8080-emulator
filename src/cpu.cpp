@@ -369,8 +369,34 @@ int Cpu::decode() {
                 return 2;
         };
         { // ADC
-
-        }
+            case 0x88:
+                regs.A += regs.B + regs.getCarry();
+                return 1;
+            case 0x89:
+                regs.A += regs.C + regs.getCarry();
+                return 1;
+            case 0x8A:
+                regs.A += regs.D + regs.getCarry();
+                return 1;
+            case 0x8B:
+                regs.A += regs.E + regs.getCarry();
+                return 1;
+            case 0x8C:
+                regs.A += regs.H + regs.getCarry();
+                return 1;
+            case 0x8D:
+                regs.A += regs.L + regs.getCarry();
+                return 1;
+            case 0x8E:
+                regs.A += memory.read(regs.readHL()) + regs.getCarry();
+                return 1;
+            case 0x8F:
+                regs.A += regs.A + regs.getCarry();
+                return 1;
+            case 0xCE: // ADI
+                regs.A += memory.read(regs.PC++) + regs.getCarry();
+                return 2;
+        };
         default:
             UnimplementedInstruction();
             return 0;
