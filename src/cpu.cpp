@@ -76,10 +76,15 @@ int Cpu::decode() {
                 regs.setRP(RP, value);
                 return 3;
             // Load accumulator indirect
-            } else if ((opcode & 0b1111) == 0b1010 && (opcode & 0b00100000) >> 5 == 0b1) {
+            } else if ((opcode & 0b1111) == 0b1010 && (opcode & 0b00100000) >> 5 == 0b0) {
                 uint8_t RP = (opcode & 0b00110000);
                 uint16_t address = regs.readRP(RP);
                 regs.A = memory.read(address);
+                return 2;
+            } else if ((opcode & 0b1111) == 0b0010 && (opcode & 0b00100000) >> 5 == 0b0) {
+                uint8_t RP = (opcode & 0b00110000);
+                uint16_t address = regs.readRP(RP);
+                memory.write(address, regs.A);
                 return 2;
             }
             break;
