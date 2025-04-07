@@ -48,6 +48,23 @@ int Cpu::decode() {
                 return 1; // 1 cycle
             }
         }
+        case 0b00: // Data transfer (without MOV and XCHG)
+        {   
+            // Move Immediate
+            if ((opcode & 0b111) == 0b110) {  
+                uint8_t value = memory.read(regs.PC++);
+                const uint8_t DDD = (opcode & 0b00111000) >> 3; // Destination
+                uint8_t *dest = regs.getSingleRegister(DDD);
+                if (dest == nullptr) { // Move to memory immediate
+                    assert(opcode == 0b00110110); // Assert this is actually the correct opcode 
+                    memory.write(regs.readHL(), value);
+                    return 3;
+                } else { // Move immediate
+                    *dest = value;
+                    return 2;
+                }
+            }
+        }
         default: break;
     }
 
