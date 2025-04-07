@@ -24,6 +24,12 @@ void Cpu::UnimplementedInstruction() {
     exit(1);
 }
 
+uint16_t Cpu::read16atPC() {
+    uint16_t value = memory.read16(regs.PC);
+    regs.PC += 2;
+    return value;
+}
+
 int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
     const uint8_t group = (opcode & 0b11000000) >> 6;

@@ -12,6 +12,8 @@ class Cpu {
 
     void UnimplementedInstruction();
 
+    uint16_t read16atPC(); // read next two bytes and increment PC twice
+
     public:
         int loadRom(const char* path);
         int decode();
