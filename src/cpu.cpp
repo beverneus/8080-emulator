@@ -364,7 +364,13 @@ int Cpu::decode() {
             case 0x87:
                 regs.A += regs.A;
                 return 1;
+            case 0xC6: // ADI
+                regs.A += memory.read(regs.PC++);
+                return 2;
         };
+        { // ADC
+
+        }
         default:
             UnimplementedInstruction();
             return 0;
