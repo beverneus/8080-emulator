@@ -90,6 +90,12 @@ int Cpu::decode() {
             regs.A = value;
             return 4;
         }
+        case 0b00110010: // Store Accumulator direct
+        {
+            uint16_t value = read16atPC();
+            memory.write(value, regs.A);
+            return 4;
+        }
         default:
             UnimplementedInstruction();
     }
