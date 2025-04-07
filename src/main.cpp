@@ -11,8 +11,15 @@ int main() {
     const char* path = "../assets/invaders";
     cpu.loadRom(path);
     
-    while (true)
-        cpu.decode();
+    int cycles = 0;
 
+    while (true) {
+        if (cycles > 0) {
+            cycles--;
+            continue;
+        }
+        cycles = cpu.decode();
+        cycles--;
+    }
     return 0;
 }

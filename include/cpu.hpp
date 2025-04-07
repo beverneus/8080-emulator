@@ -13,5 +13,5 @@ class Cpu {
 
     public:
         int loadRom(const char* path);
-        void decode();
+        int decode();
 };

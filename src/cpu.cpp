@@ -23,7 +23,7 @@ void Cpu::UnimplementedInstruction() {
     exit(1);
 }
 
-void Cpu::decode() {
+int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
     const uint8_t group = (opcode & 0b11000000) >> 6;
 
@@ -38,13 +38,15 @@ void Cpu::decode() {
             uint8_t *source = regs.getSingleRegister(SSS);
             if (SSS == 0b110) { // Move from memory, address in register pair HL, value in register DDD
                 *dest = memory.read(regs.readHL());
+                return 2; // 2 cycles
             } else if (DDD == 0b110) { // Move to memory, address in register pair HL, value in register SSS
                 memory.write(regs.readHL(), *source);
+                return 2; // 2 cycles
             } else { // Move, register SSS to register DDD
-                *dest = *source;
+                *dest = *source; 
+                return 1; // 1 cycle
             }
         }
-            return; // avoid next switch statement from being ran
         default: break;
     }
 
@@ -54,5 +56,6 @@ void Cpu::decode() {
         default:
             UnimplementedInstruction();
     }
+    return 1; // most instructions are 1 cycle long
 
 }
