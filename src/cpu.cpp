@@ -115,6 +115,13 @@ int Cpu::decode() {
             regs.H = memory.read(address+1);
             return 5;
         }
+        case 0b11101011: // Exchange H and L with D and E
+        {
+            uint16_t temp = regs.readHL();
+            regs.setHL(regs.readDE());
+            regs.setDE(temp);
+            return 1;
+        }
         default:
             UnimplementedInstruction();
     }
