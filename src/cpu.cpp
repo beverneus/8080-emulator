@@ -41,6 +41,7 @@ int Cpu::decode() {
     regs.PC += 1; // increment PC to avoid repetitive code
     
     switch (opcode) {
+        // DATA TRANSFER GROUP
         { // MOV
             // destination B
             case 0x40:
@@ -336,7 +337,34 @@ int Cpu::decode() {
             regs.setHL(regs.readDE());
             regs.setDE(temp16);
             return 1;
-        }
+        };
+        // ARITHMETIC GROUP
+        { // ADD
+            case 0x80:
+                regs.A += regs.B;
+                return 1;
+            case 0x81:
+                regs.A += regs.C;
+                return 1;
+            case 0x82:
+                regs.A += regs.D;
+                return 1;
+            case 0x83:
+                regs.A += regs.E;
+                return 1;
+            case 0x84:
+                regs.A += regs.H;
+                return 1;
+            case 0x85:
+                regs.A += regs.L;
+                return 1;
+            case 0x86:
+                regs.A += memory.read(regs.readHL());
+                return 1;
+            case 0x87:
+                regs.A += regs.A;
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
