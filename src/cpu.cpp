@@ -19,6 +19,7 @@ int Cpu::loadRom(const char* path) {
 }
 
 void Cpu::UnimplementedInstruction() {
+    regs.PC--;
     std::cerr << "Unimplemented instruction at: 0x" << std::hex << (int)regs.PC << '\n' << "0x" << std::hex << (int)memory.read(regs.PC) << '\n';
     exit(1);
 }
