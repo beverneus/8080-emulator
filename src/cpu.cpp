@@ -78,6 +78,13 @@ int Cpu::decode() {
     switch (opcode) {
         case 0x00: //NOP
             break;
+        // Data transfer
+        case 0b00111010: // Load Accumulator direct
+        {
+            uint16_t value = memory.read16(regs.PC);
+            regs.A = value;
+            return 4;
+        }
         default:
             UnimplementedInstruction();
     }
