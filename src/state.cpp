@@ -28,12 +28,20 @@ Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
 void Registers::setFlags(uint8_t result) {
     // Only sets Zero, Sign, and Parity flags. The two carry flags have to be checked on location
-    if (result == 0x0) {F |= 0b10000;} // Zero flag
-    if ((result & 0b10000000) >> 7 ==  0b1) {F |= 0b01000;} // Sign flag, most significant bit set
-    if (std::popcount(result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
-        F |= 0b00100; // set bit
+    if (result == 0x0) { // Zero flag
+        F |= 0b10000;
     } else {
-        F &= ~0b00100; // reset bit
+        F &= ~0b10000;
+    }
+    if ((result & 0b10000000) >> 7 ==  0b1) { // Sign flag, most significant bit set
+        F |= 0b01000;
+    } else {
+        F &= ~0b01000;
+    }
+    if (std::popcount(result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
+        F |= 0b00100; 
+    } else {
+        F &= ~0b00100; 
     }
 }
 
