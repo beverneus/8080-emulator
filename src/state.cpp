@@ -27,7 +27,6 @@ uint16_t Memory::read16(uint16_t address) const {
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
 void Registers::setFlags(uint8_t result) {
-    // Only sets Zero, Sign, and Parity flags. The two carry flags have to be checked on location
     if (result == 0x0) { // Zero flag
         F |= 0b10000;
     } else {
@@ -44,6 +43,21 @@ void Registers::setFlags(uint8_t result) {
         F &= ~0b00100; 
     }
 }
+
+void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry) {
+    setFlags(result); // Zero, Sign, and Parity flags
+    if (result > UINT8_MAX) { // Carry flag
+        F |= 0b00010;
+    } else {
+        F &= ~0b00010;
+    }
+    if ((a & 0x0F) < ((b & 0x0F) + 0b1 * carry)) {
+        F |= 0b00001;
+    } else {
+        F &= ~0b00001;
+    }
+}
+
 
 uint8_t Registers::getZero() {return (F & 0b10000) >> 4;}
 uint8_t Registers::getCarry() {return (F & 0b1000) >> 3;}

@@ -16,6 +16,8 @@ class Registers
     uint16_t readPair(uint8_t high, uint8_t low);
     void setPair(uint8_t *high, uint8_t *low, uint16_t value);
 
+    void setFlags(uint8_t result);
+
     public:
         Registers();
 
@@ -23,7 +25,8 @@ class Registers
         uint8_t A; // Accumulator
         uint8_t F; // Flag register, 5 bits: zero, carry, sign, parity and auxiliary carry
 
-        void setFlags(uint8_t result);
+        void setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry);
+        void setFlagsSUB(uint16_t result, uint8_t a, uint8_t b);
 
         uint8_t getZero();
         uint8_t getCarry();
