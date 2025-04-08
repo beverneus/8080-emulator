@@ -33,11 +33,6 @@ class Registers
 
         uint16_t PC, SP; // Program counter, stack pointer
 
-        uint8_t* getSingleRegister(uint8_t code);
-
-        uint16_t readRP(uint8_t code);
-        void setRP(uint8_t code, uint16_t value);
-
         uint16_t readBC() { return readPair(B, C); };
         void setBC(uint16_t value) { setPair(&B, &C, value); }
 
