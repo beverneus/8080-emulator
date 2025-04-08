@@ -26,6 +26,16 @@ uint16_t Memory::read16(uint16_t address) const {
 
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
+void Registers::setFlags(uint8_t result) {
+    if (result == 0x0) {F |= 0b10000;} // Zero flag
+    if ((result & 0b10000000) >> 7 ==  0b1) {F |= 0b01000;} // Sign flag, most significant bit set
+    if (std::popcount(result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
+        F |= 0b00100; // set bit
+    } else {
+        F &= ~0b00100; // reset bit
+    }
+}
+
 uint8_t Registers::getZero() {return (F & 0b10000) >> 4;}
 uint8_t Registers::getCarry() {return (F & 0b1000) >> 3;}
 uint8_t Registers::getSign() {return (F & 0b100) >> 2;}

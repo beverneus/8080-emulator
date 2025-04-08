@@ -23,6 +23,8 @@ class Registers
         uint8_t A; // Accumulator
         uint8_t F; // Flag register, 5 bits: zero, carry, sign, parity and auxiliary carry
 
+        void setFlags(uint8_t result);
+
         uint8_t getZero();
         uint8_t getCarry();
         uint8_t getSign();
