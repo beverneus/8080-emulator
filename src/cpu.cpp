@@ -387,6 +387,64 @@ int Cpu::decode() {
                 regs.A += memory.read(regs.PC++) + regs.getCarry();
                 return 2;
         };
+        { // SUB
+            case 0x90:
+                regs.A -= regs.B;
+                return 1;
+            case 0x91:
+                regs.A -= regs.C;
+                return 1;
+            case 0x92:
+                regs.A -= regs.D;
+                return 1;
+            case 0x93:
+                regs.A -= regs.E;
+                return 1;
+            case 0x94:
+                regs.A -= regs.H;
+                return 1;
+            case 0x95:
+                regs.A -= regs.L;
+                return 1;
+            case 0x96:
+                regs.A -= memory.read(regs.readHL());
+                return 1;
+            case 0x97:
+                regs.A -= regs.A;
+                return 1;
+            case 0xD6: // SUI
+                regs.A -= memory.read(regs.PC++);
+                return 2;
+        };
+        { // SBB
+            case 0x98:
+                regs.A -= regs.B + regs.getCarry();
+                return 1;
+            case 0x99:
+                regs.A -= regs.C + regs.getCarry();
+                return 1;
+            case 0x9A:
+                regs.A -= regs.D + regs.getCarry();
+                return 1;
+            case 0x9B:
+                regs.A -= regs.E + regs.getCarry();
+                return 1;
+            case 0x9C:
+                regs.A -= regs.H + regs.getCarry();
+                return 1;
+            case 0x9D:
+                regs.A -= regs.L + regs.getCarry();
+                return 1;
+            case 0x9E:
+                regs.A -= memory.read(regs.readHL()) + regs.getCarry();
+                return 1;
+            case 0x9F:
+                regs.A -= regs.A + regs.getCarry();
+                return 1;
+            case 0xDE: // SBI
+                regs.A -= memory.read(regs.PC++) + regs.getCarry();
+                return 2;
+        };
         default:
             UnimplementedInstruction();
             return 0;
