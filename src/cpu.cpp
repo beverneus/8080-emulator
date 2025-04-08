@@ -45,7 +45,6 @@ int Cpu::decode() {
         { // MOV
             // destination B
             case 0x40:
-                regs.B = regs.B;
                 return 1;
             case 0x41:
                 regs.B = regs.C;
@@ -74,7 +73,6 @@ int Cpu::decode() {
                 regs.C = regs.B;
                 return 1;
             case 0x49:
-                regs.C = regs.C;
                 return 1;
             case 0x4A:
                 regs.C = regs.D;
@@ -103,7 +101,6 @@ int Cpu::decode() {
                 regs.D = regs.C;
                 return 1;
             case 0x52:
-                regs.D = regs.D;
                 return 1;
             case 0x53:
                 regs.D = regs.E;
@@ -132,7 +129,6 @@ int Cpu::decode() {
                 regs.E = regs.D;
                 return 1;
             case 0x5B:
-                regs.E = regs.E;
                 return 1;
             case 0x5C:
                 regs.E = regs.H;
@@ -161,7 +157,6 @@ int Cpu::decode() {
                 regs.H = regs.E;
                 return 1;
             case 0x64:
-                regs.H = regs.H;
                 return 1;
             case 0x65:
                 regs.H = regs.L;
@@ -190,7 +185,6 @@ int Cpu::decode() {
                 regs.L = regs.H;
                 return 1;
             case 0x6D:
-                regs.L = regs.L;
                 return 1;
             case 0x6E:
                 address = regs.readHL();
@@ -255,7 +249,6 @@ int Cpu::decode() {
                 regs.A = memory.read(address);
                 return 2;
             case 0x7F:
-                regs.A = regs.A;
                 return 1;
         };        
         { // MVI
