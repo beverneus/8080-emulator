@@ -332,117 +332,153 @@ int Cpu::decode() {
         { // ADD
             case 0x80:
                 regs.A += regs.B;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x81:
                 regs.A += regs.C;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x82:
                 regs.A += regs.D;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x83:
                 regs.A += regs.E;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x84:
                 regs.A += regs.H;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x85:
                 regs.A += regs.L;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x86:
                 regs.A += memory.read(regs.readHL());
+                regs.setFlags(regs.A);
                 return 1;
             case 0x87:
                 regs.A += regs.A;
+                regs.setFlags(regs.A);
                 return 1;
             case 0xC6: // ADI
                 regs.A += memory.read(regs.PC++);
+                regs.setFlags(regs.A);
                 return 2;
         };
         { // ADC
             case 0x88:
                 regs.A += regs.B + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x89:
                 regs.A += regs.C + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8A:
                 regs.A += regs.D + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8B:
                 regs.A += regs.E + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8C:
                 regs.A += regs.H + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8D:
                 regs.A += regs.L + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8E:
                 regs.A += memory.read(regs.readHL()) + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x8F:
                 regs.A += regs.A + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0xCE: // ADI
                 regs.A += memory.read(regs.PC++) + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 2;
         };
         { // SUB
             case 0x90:
                 regs.A -= regs.B;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x91:
                 regs.A -= regs.C;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x92:
                 regs.A -= regs.D;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x93:
                 regs.A -= regs.E;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x94:
                 regs.A -= regs.H;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x95:
                 regs.A -= regs.L;
+                regs.setFlags(regs.A);
                 return 1;
             case 0x96:
                 regs.A -= memory.read(regs.readHL());
+                regs.setFlags(regs.A);
                 return 1;
             case 0x97:
                 regs.A -= regs.A;
+                regs.setFlags(regs.A);
                 return 1;
             case 0xD6: // SUI
                 regs.A -= memory.read(regs.PC++);
+                regs.setFlags(regs.A);
                 return 2;
         };
         { // SBB
             case 0x98:
                 regs.A -= regs.B + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x99:
                 regs.A -= regs.C + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9A:
                 regs.A -= regs.D + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9B:
                 regs.A -= regs.E + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9C:
                 regs.A -= regs.H + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9D:
                 regs.A -= regs.L + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9E:
                 regs.A -= memory.read(regs.readHL()) + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0x9F:
                 regs.A -= regs.A + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 1;
             case 0xDE: // SBI
                 regs.A -= memory.read(regs.PC++) + regs.getCarry();
+                regs.setFlags(regs.A);
                 return 2;
         };
         default:
