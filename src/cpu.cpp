@@ -218,9 +218,6 @@ int Cpu::decode() {
                 address = regs.readHL();
                 memory.write(address, regs.L);
                 return 2;
-            case 0x76:
-                UnimplementedInstruction(); // HALT
-                return 0;
             case 0x77:
                 address = regs.readHL();
                 memory.write(address, regs.A);
