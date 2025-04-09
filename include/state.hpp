@@ -16,7 +16,7 @@ class Registers
     uint16_t readPair(uint8_t high, uint8_t low);
     void setPair(uint8_t *high, uint8_t *low, uint16_t value);
 
-    void setFlags(uint8_t result);
+    void setFlags(uint16_t result);
 
     public:
         Registers();

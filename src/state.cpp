@@ -26,18 +26,18 @@ uint16_t Memory::read16(uint16_t address) const {
 
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
-void Registers::setFlags(uint8_t result) {
-    if (result == 0x0) { // Zero flag
+void Registers::setFlags(uint16_t result) {
+    if ((uint8_t)result == 0x0) { // Zero flag
         F |= 0b10000;
     } else {
         F &= ~0b10000;
     }
-    if ((result & 0b10000000) >> 7 ==  0b1) { // Sign flag, most significant bit set
+    if (((uint8_t)result & 0b10000000) >> 7 ==  0b1) { // Sign flag, most significant bit set
         F |= 0b01000;
     } else {
         F &= ~0b01000;
     }
-    if (std::popcount(result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
+    if (std::popcount((uint8_t)result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
         F |= 0b00100; 
     } else {
         F &= ~0b00100; 
@@ -49,7 +49,7 @@ void Registers::setFlags(uint8_t result) {
     }
 }
 
-void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry = 0) {
+void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry) {
     setFlags(result); // Zero, Sign, and Parity flags
     if (((a & 0x0F) + (b & 0x0F) + 0b1*carry) > 0xF) { // AuxCarry flag
         F |= 0b00001;
@@ -58,7 +58,7 @@ void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry = 
     }
 }
 
-void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow = 0) {
+void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow) {
     setFlags(result); // Zero, Sign, and Parity flags
     if ((a & 0x0F) < ((b & 0x0F) + 0b1 * borrow)) { // AuxCarry flag
         F |= 0b00001;
