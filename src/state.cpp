@@ -26,41 +26,43 @@ uint16_t Memory::read16(uint16_t address) const {
 
 Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
 
-void Registers::setFlags(uint16_t result) {
-    if ((uint8_t)result == 0x0) { // Zero flag
+void Registers::setFlags(uint16_t result, bool enableZero, bool enableSign, bool enableParity, bool enableCarry) {
+    if ((uint8_t)result == 0x0 && enableZero) { // Zero flag
         F |= 0b10000;
     } else {
         F &= ~0b10000;
     }
-    if (((uint8_t)result & 0b10000000) >> 7 ==  0b1) { // Sign flag, most significant bit set
+    if (((uint8_t)result & 0b10000000 && enableSign) >> 7 ==  0b1) { // Sign flag, most significant bit set
         F |= 0b01000;
     } else {
         F &= ~0b01000;
     }
-    if (std::popcount((uint8_t)result) % 2 == 0) { // Parity flag, modulo 2 sum of bits is zero 
+    if (std::popcount((uint8_t)result) % 2 == 0 && enableParity) { // Parity flag, modulo 2 sum of bits is zero 
         F |= 0b00100; 
     } else {
         F &= ~0b00100; 
     }
-    if (result > UINT8_MAX) { // Carry flag
+    if (result > UINT8_MAX && enableCarry) { // Carry flag
         F |= 0b00010;
     } else {
         F &= ~0b00010;
     }
 }
 
-void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry) {
-    setFlags(result); // Zero, Sign, and Parity flags
-    if (((a & 0x0F) + (b & 0x0F) + 0b1*carry) > 0xF) { // AuxCarry flag
+void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry,
+                            bool enableZero, bool enableSign, bool enableParity, bool enableCarry, bool enableAuxCarry) {
+    setFlags(result, enableZero, enableSign, enableParity, enableCarry); // Zero, Sign, Parity, and Carry flags
+    if (((a & 0x0F) + (b & 0x0F) + 0b1*carry) > 0xF && enableAuxCarry) { // AuxCarry flag, set if the lower 4 bit overflowed 
         F |= 0b00001;
     } else {
         F &= ~0b00001;
     }
 }
 
-void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow) {
-    setFlags(result); // Zero, Sign, and Parity flags
-    if ((a & 0x0F) < ((b & 0x0F) + 0b1 * borrow)) { // AuxCarry flag
+void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow,
+                            bool enableZero, bool enableSign, bool enableParity, bool enableCarry, bool enableAuxCarry) {
+    setFlags(result, enableZero, enableSign, enableParity, enableCarry); // Zero, Sign, Parity and Carry flags
+    if ((a & 0x0F) < ((b & 0x0F) + 0b1 * borrow) && enableAuxCarry) { // AuxCarry flag, set if the lower 4 bits borrowed from the higher bits
         F |= 0b00001;
     } else {
         F &= ~0b00001;
