@@ -43,6 +43,10 @@ void Registers::setFlags(uint16_t result, bool enableZero, bool enableSign, bool
         F &= ~0b00100; 
     }
     if (result > UINT8_MAX && enableCarry) { // Carry flag
+    /*  This is the same for addition and subtraction.
+        This is possible because if the addition overflows the 8 bit value it's higher than the 8bit maximum in an 16bit uint.
+        And if the subtraction borrows it will underflow and in a 16 bit int will become higher than the 8 bit maximum,
+        even if a=0x00 and b=0xFF the result would be 0xFF01, a lot bigger than 0xFF.*/
         F |= 0b00010;
     } else {
         F &= ~0b00010;
@@ -52,6 +56,8 @@ void Registers::setFlags(uint16_t result, bool enableZero, bool enableSign, bool
 void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry,
                             bool enableZero, bool enableSign, bool enableParity, bool enableCarry, bool enableAuxCarry) {
     setFlags(result, enableZero, enableSign, enableParity, enableCarry); // Zero, Sign, Parity, and Carry flags
+    /* Checks if the sum of the two argument's lower nibbles (and if used the carry) is higher than the 8 bit maximum.
+       If this is the case the addition overflowed into the higher nibble. */
     if (((a & 0x0F) + (b & 0x0F) + 0b1*carry) > 0xF && enableAuxCarry) { // AuxCarry flag, set if the lower 4 bit overflowed 
         F |= 0b00001;
     } else {
@@ -62,6 +68,8 @@ void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry,
 void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow,
                             bool enableZero, bool enableSign, bool enableParity, bool enableCarry, bool enableAuxCarry) {
     setFlags(result, enableZero, enableSign, enableParity, enableCarry); // Zero, Sign, Parity and Carry flags
+    /* Check if the lower nibble of the first value is smaller than the lower nibble of the second value (if used with borrow).
+       If this is the case a bit would've been borrowed from the higher nibble. */
     if ((a & 0x0F) < ((b & 0x0F) + 0b1 * borrow) && enableAuxCarry) { // AuxCarry flag, set if the lower 4 bits borrowed from the higher bits
         F |= 0b00001;
     } else {
