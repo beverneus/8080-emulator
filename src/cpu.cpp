@@ -331,80 +331,98 @@ int Cpu::decode() {
         // ARITHMETIC GROUP
         { // ADD
             case 0x80:
-                regs.A += regs.B;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.B;
+                regs.setFlagsADD(temp16, regs.A, regs.B);
+                regs.A = temp16;
                 return 1;
             case 0x81:
-                regs.A += regs.C;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.C;
+                regs.setFlagsADD(temp16, regs.A, regs.C);
+                regs.A = temp16;
                 return 1;
             case 0x82:
-                regs.A += regs.D;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.D;
+                regs.setFlagsADD(temp16, regs.A, regs.D);
+                regs.A = temp16;
                 return 1;
             case 0x83:
-                regs.A += regs.E;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.E;
+                regs.setFlagsADD(temp16, regs.A, regs.E);
+                regs.A = temp16;
                 return 1;
             case 0x84:
-                regs.A += regs.H;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.H;
+                regs.setFlagsADD(temp16, regs.A, regs.H);
+                regs.A = temp16;
                 return 1;
             case 0x85:
-                regs.A += regs.L;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.L;
+                regs.setFlagsADD(temp16, regs.A, regs.L);
+                regs.A = temp16;
                 return 1;
             case 0x86:
-                regs.A += memory.read(regs.readHL());
-                regs.setFlags(regs.A);
+                temp16 = regs.A + memory.read(regs.readHL());
+                regs.setFlagsADD(temp16, regs.A, memory.read(regs.readHL()));
+                regs.A = temp16;
                 return 1;
             case 0x87:
-                regs.A += regs.A;
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.A;
+                regs.setFlagsADD(temp16, regs.A, regs.A);
+                regs.A = temp16;
                 return 1;
             case 0xC6: // ADI
-                regs.A += memory.read(regs.PC++);
-                regs.setFlags(regs.A);
+                temp8 = memory.read(regs.PC++);
+                temp16 = regs.A + temp8;
+                regs.setFlagsADD(temp16, regs.A, temp8);
+                regs.A = temp16;
                 return 2;
-        };
         { // ADC
             case 0x88:
-                regs.A += regs.B + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.B + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.B, true);
+                regs.A = temp16;
                 return 1;
             case 0x89:
-                regs.A += regs.C + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.C + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.C, true);
+                regs.A = temp16;
                 return 1;
             case 0x8A:
-                regs.A += regs.D + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.D + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.D, true);
+                regs.A = temp16;
                 return 1;
             case 0x8B:
-                regs.A += regs.E + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.E + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.E, true);
+                regs.A = temp16;
                 return 1;
             case 0x8C:
-                regs.A += regs.H + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.H + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.H, true);
+                regs.A = temp16;
                 return 1;
             case 0x8D:
-                regs.A += regs.L + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.L + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.L, true);
+                regs.A = temp16;
                 return 1;
             case 0x8E:
-                regs.A += memory.read(regs.readHL()) + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + memory.read(regs.readHL()) + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, memory.read(regs.readHL()), true);
+                regs.A = temp16;
                 return 1;
             case 0x8F:
-                regs.A += regs.A + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A + regs.A + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, regs.A, true);
+                regs.A = temp16;
                 return 1;
             case 0xCE: // ADI
-                regs.A += memory.read(regs.PC++) + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp8 = memory.read(regs.PC++);
+                temp16 = regs.A + temp8 + regs.getCarry();
+                regs.setFlagsADD(temp16, regs.A, temp8, true);
+                regs.A = temp16;
                 return 2;
-        };
         { // SUB
             case 0x90:
                 regs.A -= regs.B;
