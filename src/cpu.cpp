@@ -41,6 +41,8 @@ int Cpu::decode() {
     regs.PC += 1; // increment PC to avoid repetitive code
     
     switch (opcode) {
+        case 0x00: // NOP
+            return 1;
         // DATA TRANSFER GROUP
         { // MOV
             // destination B
