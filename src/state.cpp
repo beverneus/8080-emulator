@@ -42,16 +42,25 @@ void Registers::setFlags(uint8_t result) {
     } else {
         F &= ~0b00100; 
     }
-}
-
-void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry) {
-    setFlags(result); // Zero, Sign, and Parity flags
     if (result > UINT8_MAX) { // Carry flag
         F |= 0b00010;
     } else {
         F &= ~0b00010;
     }
-    if ((a & 0x0F) < ((b & 0x0F) + 0b1 * carry)) {
+}
+
+void Registers::setFlagsADD(uint16_t result, uint8_t a, uint8_t b, bool carry = 0) {
+    setFlags(result); // Zero, Sign, and Parity flags
+    if (((a & 0x0F) + (b & 0x0F) + 0b1*carry) > 0xF) { // AuxCarry flag
+        F |= 0b00001;
+    } else {
+        F &= ~0b00001;
+    }
+}
+
+void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow = 0) {
+    setFlags(result); // Zero, Sign, and Parity flags
+    if ((a & 0x0F) < ((b & 0x0F) + 0b1 * borrow)) { // AuxCarry flag
         F |= 0b00001;
     } else {
         F &= ~0b00001;
