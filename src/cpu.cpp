@@ -34,7 +34,7 @@ int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
 
     uint16_t address;
-    uint8_t value8;
+    uint8_t temp8;
     uint16_t temp16;
     // uint16_t value16;
 
@@ -268,8 +268,8 @@ int Cpu::decode() {
                 regs.L = memory.read(regs.PC++);
                 return 2;
             case 0x36:
-                value8 = memory.read(regs.PC++);
-                memory.write(regs.readHL(), value8);
+                temp8 = memory.read(regs.PC++);
+                memory.write(regs.readHL(), temp8);
                 return 3;
             case 0x3E:
                 regs.A = memory.read(regs.PC++);
@@ -376,6 +376,7 @@ int Cpu::decode() {
                 regs.setFlagsADD(temp16, regs.A, temp8);
                 regs.A = temp16;
                 return 2;
+        };
         { // ADC
             case 0x88:
                 temp16 = regs.A + regs.B + regs.getCarry();
@@ -423,82 +424,103 @@ int Cpu::decode() {
                 regs.setFlagsADD(temp16, regs.A, temp8, true);
                 regs.A = temp16;
                 return 2;
+        };
         { // SUB
             case 0x90:
-                regs.A -= regs.B;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.B;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                regs.A = temp16;
                 return 1;
             case 0x91:
-                regs.A -= regs.C;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.C;
+                regs.setFlagsSUB(temp16, regs.A, regs.C);
+                regs.A = temp16;
                 return 1;
             case 0x92:
-                regs.A -= regs.D;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.D;
+                regs.setFlagsSUB(temp16, regs.A, regs.D);
+                regs.A = temp16;
                 return 1;
             case 0x93:
-                regs.A -= regs.E;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.E;
+                regs.setFlagsSUB(temp16, regs.A, regs.E);
+                regs.A = temp16;
                 return 1;
             case 0x94:
-                regs.A -= regs.H;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.H;
+                regs.setFlagsSUB(temp16, regs.A, regs.H);
+                regs.A = temp16;
                 return 1;
             case 0x95:
-                regs.A -= regs.L;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.L;
+                regs.setFlagsSUB(temp16, regs.A, regs.L);
+                regs.A = temp16;
                 return 1;
             case 0x96:
-                regs.A -= memory.read(regs.readHL());
-                regs.setFlags(regs.A);
+                temp16 = regs.A - memory.read(regs.readHL());
+                regs.setFlagsSUB(temp16, regs.A, memory.read(regs.readHL()));
+                regs.A = temp16;
                 return 1;
             case 0x97:
-                regs.A -= regs.A;
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.A;
+                regs.setFlagsSUB(temp16, regs.A, regs.A);
+                regs.A = temp16;
                 return 1;
             case 0xD6: // SUI
-                regs.A -= memory.read(regs.PC++);
-                regs.setFlags(regs.A);
+                temp8 = memory.read(regs.PC++);
+                temp16 = regs.A - temp8;
+                regs.setFlagsSUB(temp16, regs.A, temp8);
+                regs.A = temp16;
                 return 2;
         };
         { // SBB
             case 0x98:
-                regs.A -= regs.B + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.B - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.B, true);
+                regs.A = temp16;
                 return 1;
             case 0x99:
-                regs.A -= regs.C + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.C - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.C, true);
+                regs.A = temp16;
                 return 1;
             case 0x9A:
-                regs.A -= regs.D + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.D - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.D, true);
+                regs.A = temp16;
                 return 1;
             case 0x9B:
-                regs.A -= regs.E + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.E - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.E, true);
+                regs.A = temp16;
                 return 1;
             case 0x9C:
-                regs.A -= regs.H + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.H - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.H, true);
+                regs.A = temp16;
                 return 1;
             case 0x9D:
-                regs.A -= regs.L + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.L - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.L, true);
+                regs.A = temp16;
                 return 1;
             case 0x9E:
-                regs.A -= memory.read(regs.readHL()) + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - memory.read(regs.readHL()) - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, memory.read(regs.readHL()), true);
+                regs.A = temp16;
                 return 1;
             case 0x9F:
-                regs.A -= regs.A + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp16 = regs.A - regs.A - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, regs.A, true);
+                regs.A = temp16;
                 return 1;
             case 0xDE: // SBI
-                regs.A -= memory.read(regs.PC++) + regs.getCarry();
-                regs.setFlags(regs.A);
+                temp8 = memory.read(regs.PC++);
+                temp16 = regs.A - temp8 - regs.getCarry();
+                regs.setFlagsSUB(temp16, regs.A, temp8, true);
+                regs.A = temp16;
                 return 2;
-        };
+        }
         default:
             UnimplementedInstruction();
             return 0;
