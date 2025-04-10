@@ -565,6 +565,20 @@ int Cpu::decode() {
                 regs.A = temp16;
                 return 1;
         };
+        { // INX, increment 16bit register pair
+            case 0x03:
+                regs.setBC(regs.readBC() + 1);
+                return 1;
+            case 0x13:
+                regs.setDE(regs.readDE() + 1);
+                return 1;
+            case 0x23:
+                regs.setHL(regs.readHL() + 1);
+                return 1;
+            case 0x33:
+                regs.SP += 1;
+                return 1;
+        };
         { // DCR
             case 0x05:
                 temp16 = regs.B - 1;
