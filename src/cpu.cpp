@@ -635,6 +635,40 @@ int Cpu::decode() {
                 regs.SP -= 1;
                 return 1;
         };
+        { // DAD, add register RP to HL, only sets carry flag based on double precision overflow
+            case 0x09:
+                if (UINT16_MAX - regs.readHL() < regs.readBC()) { // set carry if overflow
+                    regs.F |= 0b00000001;;
+                } else {
+                    regs.F &= ~0b00000001;
+                }
+                regs.setHL(regs.readHL() + regs.readBC());
+                return 3;
+            case 0x19:
+                if (UINT16_MAX - regs.readHL() < regs.readDE()) {
+                    regs.F |= 0b00000001;;
+                } else {
+                    regs.F &= ~0b00000001;
+                }
+                regs.setHL(regs.readHL() + regs.readDE());
+                return 3;
+            case 0x29:
+                if (UINT16_MAX - regs.readHL() < regs.readHL()) { 
+                    regs.F |= 0b00000001;;
+                } else {
+                    regs.F &= ~0b00000001;
+                }
+                regs.setHL(regs.readHL() + regs.readHL());
+                return 3;
+            case 0x39:
+                if (UINT16_MAX - regs.readHL() < regs.SP) { 
+                    regs.F |= 0b00000001;;
+                } else {
+                    regs.F &= ~0b00000001;
+                }
+                regs.setHL(regs.readHL() + regs.SP);
+                return 3;
+        };
         default:
             UnimplementedInstruction();
             return 0;
