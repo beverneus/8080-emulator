@@ -683,6 +683,89 @@ int Cpu::decode() {
                 regs.A = temp8;
                 return 1;
         };
+        // LOGICAL GROUP
+        { // ANA
+            case 0xA0:
+                temp8 = regs.A & regs.B;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.B) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA1:
+                temp8 = regs.A & regs.C;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.C) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA2:
+                temp8 = regs.A & regs.D;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.D) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA3:
+                temp8 = regs.A & regs.E;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.E) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA4:
+                temp8 = regs.A & regs.H;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.H) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA5:
+                temp8 = regs.A & regs.L;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.L) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA6:
+                temp8 = regs.A & memory.read(regs.readHL());
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | memory.read(regs.readHL())) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+            case 0xA7:
+                temp8 = regs.A & regs.A;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | regs.A) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
