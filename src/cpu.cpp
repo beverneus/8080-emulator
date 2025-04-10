@@ -766,6 +766,19 @@ int Cpu::decode() {
                 regs.A = temp8;
                 return 1;
         };
+        { // ANI
+            case 0xE5:
+                uint8_t value = memory.read(regs.PC++);
+                temp8 = regs.A & value;
+                regs.setFlags(temp8, 1, 1, 1, 0);
+                if (((regs.A | value) && 0b100 ) >> 2) {
+                    regs.F |= 0b00010000;
+                } else {
+                    regs.F &= ~0b00010000;
+                }
+                regs.A = temp8;
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
