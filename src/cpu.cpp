@@ -523,6 +523,48 @@ int Cpu::decode() {
                 regs.A = temp16;
                 return 2;
         }
+        { // INR
+            case 0x04:
+                temp16 = regs.B + 1;
+                regs.setFlagsADD(temp16, regs.B, 1, 0, 1, 1, 1, 0, 1);
+                regs.B = temp16;
+                return 1;
+            case 0x0C:
+                temp16 = regs.C + 1;
+                regs.setFlagsADD(temp16, regs.C, 1, 0, 1, 1, 1, 0, 1);
+                regs.C = temp16;
+                return 1;
+            case 0x14:
+                temp16 = regs.D + 1;
+                regs.setFlagsADD(temp16, regs.D, 1, 0, 1, 1, 1, 0, 1);
+                regs.D = temp16;
+                return 1;
+            case 0x1C:
+                temp16 = regs.E + 1;
+                regs.setFlagsADD(temp16, regs.E, 1, 0, 1, 1, 1, 0, 1);
+                regs.E = temp16;
+                return 1;
+            case 0x24:
+                temp16 = regs.H + 1;
+                regs.setFlagsADD(temp16, regs.H, 1, 0, 1, 1, 1, 0, 1);
+                regs.H = temp16;
+                return 1;
+            case 0x2C:
+                temp16 = regs.L + 1;
+                regs.setFlagsADD(temp16, regs.L, 1, 0, 1, 1, 1, 0, 1);
+                regs.L = temp16;
+                return 1;
+            case 0x34: // increment memory
+                temp16 = memory.read(regs.readHL()) + 1;
+                regs.setFlagsADD(temp16, memory.read(regs.readHL()), 1, 0, 1, 1, 1, 0, 1);
+                memory.write(regs.readHL(), temp16);
+                return 3;
+            case 0x3C:
+                temp16 = regs.A + 1;
+                regs.setFlagsADD(temp16, regs.A, 1, 0, 1, 1, 1, 0, 1);
+                regs.A = temp16;
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
