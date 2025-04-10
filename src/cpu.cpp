@@ -672,7 +672,7 @@ int Cpu::decode() {
         { // DAA
             case 0x27: 
                 temp8 = 0;
-                if (regs.A & 0x0F > 9 || regs.getAuxCarry() == 1) {
+                if ((regs.A & 0x0F) > 9 || regs.getAuxCarry() == 1) {
                     temp8 += 6;
                 }
                 if ((regs.A + temp8) >> 4 > 9 || regs.getCarry() == 1) {
