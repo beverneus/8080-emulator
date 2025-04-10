@@ -621,6 +621,20 @@ int Cpu::decode() {
                 regs.A = temp16;
                 return 1;
         };
+        { // DCX, decrement 16bit register pair
+            case 0x0B:
+                regs.setBC(regs.readBC() - 1);
+                return 1;
+            case 0x1B:
+                regs.setDE(regs.readDE() - 1);
+                return 1;
+            case 0x2B:
+                regs.setHL(regs.readHL() - 1);
+                return 1;
+            case 0x3B:
+                regs.SP -= 1;
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
