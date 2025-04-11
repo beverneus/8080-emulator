@@ -830,7 +830,56 @@ int Cpu::decode() {
                 regs.setFlags(regs.A, 1, 1, 1, 0);
                 regs.F &= ~0b00010001; // unset CY and AC
                 return 2;
-        }
+        };
+        { // ORA
+            case 0xB0:
+                regs.A |= regs.B;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB1:
+                regs.A |= regs.C;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB2:
+                regs.A |= regs.D;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB3:
+                regs.A |= regs.E;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB4:
+                regs.A |= regs.H;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB5:
+                regs.A |= regs.L;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xB6:
+                regs.A |= memory.read(regs.readHL());
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 2;
+            case 0xB7:
+                regs.A |= regs.A;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+        };
+        { // ORI
+            case 0xF6:
+                regs.A ^= memory.read(regs.PC++);
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 2;
+        };
         default:
             UnimplementedInstruction();
             return 0;
