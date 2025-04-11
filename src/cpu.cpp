@@ -693,6 +693,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA1:
@@ -703,6 +704,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA2:
@@ -713,6 +715,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA3:
@@ -733,6 +736,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA5:
@@ -743,6 +747,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA6:
@@ -753,6 +758,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA7:
@@ -763,6 +769,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
+                regs.F &= ~0b00000001; // unset CY
                 regs.A = temp8;
                 return 1;
         };
@@ -771,11 +778,7 @@ int Cpu::decode() {
                 uint8_t value = memory.read(regs.PC++);
                 temp8 = regs.A & value;
                 regs.setFlags(temp8, 1, 1, 1, 0);
-                if (((regs.A | value) && 0b100 ) >> 2) {
-                    regs.F |= 0b00010000;
-                } else {
-                    regs.F &= ~0b00010000;
-                }
+                regs.F &= ~0b00010001; // unset CY and AC
                 regs.A = temp8;
                 return 1;
         };
