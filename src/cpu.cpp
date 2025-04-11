@@ -782,6 +782,48 @@ int Cpu::decode() {
                 regs.A = temp8;
                 return 1;
         };
+        { // XRA
+            case 0xA8:
+                regs.A ^= regs.B;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xA9:
+                regs.A ^= regs.C;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAA:
+                regs.A ^= regs.D;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAB:
+                regs.A ^= regs.E;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAC:
+                regs.A ^= regs.H;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAD:
+                regs.A ^= regs.L;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAE:
+                regs.A ^= memory.read(regs.readHL());
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+            case 0xAF:
+                regs.A ^= regs.A;
+                regs.setFlags(regs.A, 1, 1, 1, 0);
+                regs.F &= ~0b00010001; // unset CY and AC
+                return 1;
+        }
         default:
             UnimplementedInstruction();
             return 0;
