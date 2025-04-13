@@ -1023,6 +1023,21 @@ int Cpu::decode() {
                 }
                 return 3;
         };
+        { // CALL
+            case 0xCD: // CALL unconditional
+                memory.write(regs.SP-1, (regs.PC & 0xF0) >> 8);
+                memory.write(regs.SP-2, regs.PC & 0x0F);
+                regs.SP -= 2;
+                regs.PC = read16atPC();
+                return 5;
+            case 0xC9: // RET, return from call
+                temp16 = 0;
+                temp16 += memory.read(regs.SP);
+                temp16 += memory.read(regs.SP+1) << 8;
+                regs.SP += 2;
+                regs.PC = temp16;
+                return 3;
+        }
         default:
             UnimplementedInstruction();
             return 0;
