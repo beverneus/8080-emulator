@@ -85,6 +85,7 @@ void Registers::clearZero(){F &= ~0b01000000;}
 uint8_t Registers::getCarry(){return (F & 0b00000001) >> 0;}
 void Registers::setCarry(){F |= 0b00000001;}
 void Registers::clearCarry(){F &= ~0b00000001;}
+void Registers::toggleCarry(){F ^= 0b00000001;}
 
 uint8_t Registers::getSign(){return (F & 0b10000000) >> 7;}
 void Registers::setSign(){F |= 0b10000000;}

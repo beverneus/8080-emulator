@@ -37,6 +37,7 @@ class Registers
         uint8_t getCarry();
         void setCarry();
         void clearCarry();
+        void toggleCarry();
 
         uint8_t getSign();
         void setSign();
