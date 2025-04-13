@@ -880,6 +880,40 @@ int Cpu::decode() {
                 regs.F &= ~0b00010001; // unset CY and AC
                 return 2;
         };
+        { // CMP
+            case 0xB8:
+                temp16 = regs.A - regs.B;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xB9:
+                temp16 = regs.A - regs.C;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBA:
+                temp16 = regs.A - regs.D;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBB:
+                temp16 = regs.A - regs.E;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBC:
+                temp16 = regs.A - regs.H;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBD:
+                temp16 = regs.A - regs.L;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBE:
+                temp16 = regs.A - memory.read(regs.readHL());
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+            case 0xBF:
+                temp16 = regs.A - regs.A;
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
