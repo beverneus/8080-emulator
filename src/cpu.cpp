@@ -977,6 +977,52 @@ int Cpu::decode() {
                 regs.setCarry();
                 return 1;
         };
+        // BRANCH GROUP
+        { // JMP
+            case 0xC3: // conditional
+                regs.PC = read16atPC();
+                return 3;
+            case 0xC2: // JNZ, jump if not zero
+                if (!regs.getZero()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xCA: // JZ, jump if zero
+                if (regs.getZero()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xD2: // JNC, jump if carry not set
+                if (!regs.getCarry()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xDA: // JC, jump if carry set
+                if (regs.getCarry()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xE2: // JPO, jump if parity not set, odd parity
+                if (!regs.getParity()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xEA: // JPE, jump if parity set, even parity
+                if (regs.getParity()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xF2: // JP, jump if sign plus, not set
+                if (!regs.getSign()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+            case 0xFA: // JM, jump if sign minus, set
+                if (regs.getSign()) {
+                    regs.PC = read16atPC();
+                }
+                return 3;
+        };
         default:
             UnimplementedInstruction();
             return 0;
