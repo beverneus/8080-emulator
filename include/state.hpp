@@ -31,10 +31,24 @@ class Registers
                          bool enableZero = 1, bool enableSign = 1, bool enableParity = 1, bool enableCarry = 1, bool enableAuxCarry = 1);
 
         uint8_t getZero();
+        void setZero();
+        void clearZero();
+
         uint8_t getCarry();
+        void setCarry();
+        void clearCarry();
+
         uint8_t getSign();
+        void setSign();
+        void clearSign();
+
         uint8_t getParity();
+        void setParity();
+        void clearParity();
+
         uint8_t getAuxCarry();
+        void setAuxCarry();
+        void clearAuxCarry();
 
         uint16_t PC, SP; // Program counter, stack pointer
 

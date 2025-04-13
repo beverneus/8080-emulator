@@ -78,11 +78,25 @@ void Registers::setFlagsSUB(uint16_t result, uint8_t a, uint8_t b, bool borrow,
 }
 
 
-uint8_t Registers::getZero() {return (F & 0b01000000) >> 6;}
-uint8_t Registers::getCarry() {return (F & 0b00000001) >> 0;}
-uint8_t Registers::getSign() {return (F & 0b10000000) >> 7;}
-uint8_t Registers::getParity() {return (F & 0b00000100) >> 2;}
-uint8_t Registers::getAuxCarry() {return F & 0b00010000 >> 4;}
+uint8_t Registers::getZero(){return (F & 0b01000000) >> 6;}
+void Registers::setZero(){F |= 0b01000000;}
+void Registers::clearZero(){F &= ~0b01000000;}
+
+uint8_t Registers::getCarry(){return (F & 0b00000001) >> 0;}
+void Registers::setCarry(){F |= 0b00000001;}
+void Registers::clearCarry(){F &= ~0b00000001;}
+
+uint8_t Registers::getSign(){return (F & 0b10000000) >> 7;}
+void Registers::setSign(){F |= 0b10000000;}
+void Registers::clearSign(){F &= ~0b10000000;}
+
+uint8_t Registers::getParity(){return (F & 0b00000100) >> 2;}
+void Registers::setParity(){F |= 0b00000100;}
+void Registers::clearParity(){F &= ~0b00000100;}
+
+uint8_t Registers::getAuxCarry(){return F & 0b00010000 >> 4;}
+void Registers::setAuxCarry(){F |= 0b00010000;}
+void Registers::clearAuxCarry(){F &= ~0b00010000;}
 
 uint16_t Registers::readPair(uint8_t high, uint8_t low)
 {
