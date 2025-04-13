@@ -36,6 +36,7 @@ int Cpu::decode() {
     uint16_t address;
     uint8_t temp8;
     uint16_t temp16;
+    uint8_t bit;
     // uint16_t value16;
 
     regs.PC += 1; // increment PC to avoid repetitive code
@@ -919,6 +920,49 @@ int Cpu::decode() {
                 temp16 = regs.A - memory.read(regs.PC++);
                 regs.setFlagsSUB(temp16, regs.A, regs.B);
                 return 2;
+        };
+        { // ROTATE
+            case 0x07: // RLC, rotate left
+                bit = (regs.A & 0b10000000) >> 7;
+                if (bit == 1) {
+                    regs.setCarry();
+                } else {
+                    regs.clearCarry();
+                }
+                temp8 = regs.A << 1;
+                regs.A = temp8 + bit;
+                return 1;
+            case 0x0F: // RRC, rotate right
+                bit = regs.A & 0b1;
+                if (bit == 1) {
+                    regs.setCarry();
+                } else {
+                    regs.clearCarry();
+                }
+                temp8 = (regs.A >> 1) | (bit << 7);
+                regs.A = temp8;
+                return 1;
+            case 0x17: // RAL, rotate left through carry
+                bit = (regs.A & 0b10000000) >> 7;
+                temp8 = (regs.A << 1) + regs.getCarry();
+                regs.A = temp8;
+                if (bit == 1) {
+                    regs.setCarry();
+                } else {
+                    regs.clearCarry();
+                }
+                return 1;
+            case 0x1F: // RAR, rotate right through carry
+                bit = regs.A & 0b1;
+                temp8 = (regs.A >> 1) + (regs.getCarry() << 7);
+                regs.A = temp8;
+                if (bit == 1) {
+                    regs.setCarry();
+                }
+                else {
+                    regs.clearCarry();
+                }
+                return 1;
         };
         default:
             UnimplementedInstruction();
