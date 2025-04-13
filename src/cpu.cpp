@@ -964,6 +964,14 @@ int Cpu::decode() {
                 }
                 return 1;
         };
+        { // COMPLEMENT
+            case 0x2F: // CMA, complement accumulator
+                regs.A = ~regs.A;
+                return 1;
+            case 0x3F: // CMC, complement carry
+                regs.toggleCarry();
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
