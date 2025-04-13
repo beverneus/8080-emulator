@@ -972,6 +972,11 @@ int Cpu::decode() {
                 regs.toggleCarry();
                 return 1;
         };
+        { // STC
+            case 0x37:
+                regs.setCarry();
+                return 1;
+        };
         default:
             UnimplementedInstruction();
             return 0;
