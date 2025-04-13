@@ -908,11 +908,17 @@ int Cpu::decode() {
             case 0xBE:
                 temp16 = regs.A - memory.read(regs.readHL());
                 regs.setFlagsSUB(temp16, regs.A, regs.B);
-                return 1;
+                return 2;
             case 0xBF:
                 temp16 = regs.A - regs.A;
                 regs.setFlagsSUB(temp16, regs.A, regs.B);
                 return 1;
+        };
+        { // CPI
+            case 0xFE:
+                temp16 = regs.A - memory.read(regs.PC++);
+                regs.setFlagsSUB(temp16, regs.A, regs.B);
+                return 2;
         };
         default:
             UnimplementedInstruction();
