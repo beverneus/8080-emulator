@@ -10,7 +10,7 @@ class Cpu {
     Registers regs;
     Memory memory;
 
-    void UnimplementedInstruction();
+    void UnimplementedInstruction(uint16_t PC);
 
     uint16_t read16atPC(); // read next two bytes and increment PC twice
 

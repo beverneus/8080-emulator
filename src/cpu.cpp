@@ -3,8 +3,8 @@
 int Cpu::loadRom(const char* path) {
     std::ifstream rom(path, std::ios::binary);
     if (rom.fail()) {
-        std::cout << "Failed to read rom at: " << path << std::endl;
-        return 1;
+        std::cerr << "Failed to read rom at: " << path << std::endl;
+        exit(1);
     }
 
     uint16_t address = 0;
@@ -18,9 +18,8 @@ int Cpu::loadRom(const char* path) {
     return 0;
 }
 
-void Cpu::UnimplementedInstruction() {
-    regs.PC--;
-    std::cerr << "Unimplemented instruction at: 0x" << std::hex << (int)regs.PC << '\n' << "0x" << std::hex << (int)memory.read(regs.PC) << '\n';
+void Cpu::UnimplementedInstruction(uint16_t PC) {
+    std::cerr << "Unimplemented instruction at: 0x" << std::hex << (int)PC << '\n' << "0x" << std::hex << (int)memory.read(PC) << '\n';
     exit(1);
 }
 
@@ -33,7 +32,7 @@ uint16_t Cpu::read16atPC() {
 int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
 
-    std::cout << std::hex << (int)opcode << '\n';
+    std::cout << "0x" << std::hex << (int)opcode << '\n';
 
     uint16_t address;
     uint8_t temp8;
@@ -41,6 +40,7 @@ int Cpu::decode() {
     uint8_t bit;
     // uint16_t value16;
 
+    const uint16_t initialPC = regs.PC;
     regs.PC += 1; // increment PC to avoid repetitive code
     
     switch (opcode) {
@@ -1041,7 +1041,7 @@ int Cpu::decode() {
                 return 3;
         }
         default:
-            UnimplementedInstruction();
+            UnimplementedInstruction(initialPC);
             return 0;
     }   
 }
