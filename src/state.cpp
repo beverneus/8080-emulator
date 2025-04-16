@@ -3,16 +3,10 @@
 // MEMORY
 
 uint8_t Memory::read(uint16_t address) const {
-    if (address >= 0x4000) {
-        address = address % 0x4000 + 0x2000;
-    }
     return data[address];
 }
 
 void Memory::write(uint16_t address, uint8_t value) {
-    if (address >= 0x4000) {
-        address = address % 0x4000 + 0x2000;
-    }
     data[address] = value;
 }
 
@@ -24,7 +18,7 @@ uint16_t Memory::read16(uint16_t address) const {
 
 // REGISTERS
 
-Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0) {}
+Registers::Registers() : B(0), C(0), D(0), E(0), H(0), L(0), A(0), F(0), PC(0), SP(0) {}
 
 void Registers::setFlags(uint16_t result, bool enableZero, bool enableSign, bool enableParity, bool enableCarry) {
     if ((uint8_t)result == 0x0 && enableZero) { // Zero flag
