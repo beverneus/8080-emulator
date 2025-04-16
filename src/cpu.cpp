@@ -43,7 +43,7 @@ int Cpu::decode() {
     
     switch (opcode) {
         case 0x00: // NOP
-            return 1;
+            return 4;
         // DATA TRANSFER GROUP
         { // MOV
             // destination B
