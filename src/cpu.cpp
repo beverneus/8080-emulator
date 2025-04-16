@@ -33,6 +33,8 @@ uint16_t Cpu::read16atPC() {
 int Cpu::decode() {
     const uint8_t opcode = memory.read(regs.PC);
 
+    std::cout << std::hex << (int)opcode << '\n';
+
     uint16_t address;
     uint8_t temp8;
     uint16_t temp16;
