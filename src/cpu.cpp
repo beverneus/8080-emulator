@@ -641,33 +641,33 @@ int Cpu::decode() {
         { // DAD, add register RP to HL, only sets carry flag based on double precision overflow
             case 0x09:
                 if (UINT16_MAX - regs.readHL() < regs.readBC()) { // set carry if overflow
-                    regs.F |= 0b00000001;;
+                    regs.setCarry();;
                 } else {
-                    regs.F &= ~0b00000001;
+                    regs.clearCarry();
                 }
                 regs.setHL(regs.readHL() + regs.readBC());
                 return 3;
             case 0x19:
                 if (UINT16_MAX - regs.readHL() < regs.readDE()) {
-                    regs.F |= 0b00000001;;
+                    regs.setCarry();;
                 } else {
-                    regs.F &= ~0b00000001;
+                    regs.clearCarry();
                 }
                 regs.setHL(regs.readHL() + regs.readDE());
                 return 3;
             case 0x29:
                 if (UINT16_MAX - regs.readHL() < regs.readHL()) { 
-                    regs.F |= 0b00000001;;
+                    regs.setCarry();;
                 } else {
-                    regs.F &= ~0b00000001;
+                    regs.clearCarry();
                 }
                 regs.setHL(regs.readHL() + regs.readHL());
                 return 3;
             case 0x39:
                 if (UINT16_MAX - regs.readHL() < regs.SP) { 
-                    regs.F |= 0b00000001;;
+                    regs.setCarry();;
                 } else {
-                    regs.F &= ~0b00000001;
+                    regs.clearCarry();
                 }
                 regs.setHL(regs.readHL() + regs.SP);
                 return 3;
@@ -696,7 +696,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA1:
@@ -707,7 +707,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA2:
@@ -718,7 +718,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA3:
@@ -739,7 +739,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA5:
@@ -750,7 +750,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
             case 0xA6:
@@ -761,7 +761,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 2;
             case 0xA7:
@@ -772,7 +772,7 @@ int Cpu::decode() {
                 } else {
                     regs.F &= ~0b00010000;
                 }
-                regs.F &= ~0b00000001; // unset CY
+                regs.clearCarry(); // unset CY
                 regs.A = temp8;
                 return 1;
         };
